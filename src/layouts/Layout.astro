@@ -1,6 +1,6 @@
 ---
 export interface Props {
-	title: string;
+  title: string;
 }
 
 const { title } = Astro.props;
@@ -8,53 +8,140 @@ const { title } = Astro.props;
 
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="description" content="MovieNight gives you the easiest way to find something to watch on iPhone and Android. Discover, Swipe, and Share: Your Personalized Movie Experience!" />
-		<meta name="keywords" content="MovieNight, iPhone, movie, tv, discover movies, discover tv, where to watch, new, upcoming" />
-		<meta name="author" content="Callum McKenzie" />
-		<meta property="og:title" content="Make Movie Night simple" />
-		<meta property="og:description" content="MovieNight gives you the easiest way to find something to watch on iPhone and Android. Discover, Swipe, and Share: Your Personalized Movie Experience!" />
-		<meta property="og:image" content="https://movienightapp.co.uk/logo.webp" />
-		<link rel="icon" type="image/svg+xml" href="/logo.webp" />
-		<meta name="generator" content={Astro.generator} />
-		<title>{title}</title>
-	</head>
-	<body>
-		<slot />
-	</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta
+      name="description"
+      content="MovieNight gives you the easiest way to find something to watch on iPhone and Android. Discover, Swipe, and Share: Your Personalized Movie Experience!"
+    />
+    <meta
+      name="keywords"
+      content="MovieNight, iPhone, movie, tv, discover movies, discover tv, where to watch, new, upcoming"
+    />
+    <meta name="author" content="Callum McKenzie" />
+    <meta property="og:title" content="Make Movie Night simple" />
+    <meta
+      property="og:description"
+      content="MovieNight gives you the easiest way to find something to watch on iPhone and Android. Discover, Swipe, and Share: Your Personalized Movie Experience!"
+    />
+    <meta property="og:image" content="https://movienightapp.co.uk/logo.webp" />
+    <link rel="icon" type="image/svg+xml" href="/logo.webp" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+  </head>
+  <body>
+    <div id="blob"></div>
+    <div id="blur"></div>
+    <div id="content">
+      <slot />
+    </div>
+  </body>
 </html>
+<script>
+  const blob = document.getElementById("blob");
+
+  window.onpointermove = (event) => {
+    const { clientX, clientY } = event;
+
+    if (!blob) {
+      return;
+    }
+    blob.animate(
+      {
+        left: `${clientX}px`,
+        top: `${clientY}px`,
+      },
+      { duration: 3000, fill: "forwards" }
+    );
+  };
+</script>
 <style is:global>
-	:root {
-		--accent: 124, 58, 237;
-		--accent-gradient: linear-gradient(45deg, rgb(var(--accent)), #06b6d4 30%, #0077e6 60%);
-	}
+  :root {
+    --accent: 124, 58, 237;
+    --accent-gradient: linear-gradient(
+      45deg,
+      rgb(var(--accent)),
+      #06b6d4 30%,
+      #0077e6 60%
+    );
+  }
 
-	@font-face {
-		font-family: "Metropolis";
-		src: url("/fonts/Metropolis-Regular.woff") format("woff");
-		font-weight: normal;
-		font-style: normal;
-		font-display: swap;
-	}
+  @font-face {
+    font-family: "Metropolis";
+    src: url("/fonts/Metropolis-Regular.woff") format("woff");
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+  }
 
-	@font-face {
-		font-family: "Metropolis";
-		src: url("/fonts/Metropolis-Black.woff") format("woff");
-		font-weight: 900;
-		font-style: normal;
-		font-display: swap;
-	}
+  @font-face {
+    font-family: "Metropolis";
+    src: url("/fonts/Metropolis-Black.woff") format("woff");
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+  }
 
-	html {
-		font-family: 'Metropolis', system-ui, sans-serif;
-		/* background-color: #1e293b; */
-		background-image: radial-gradient( circle 363px at 49.1% 0.8%,  #1e293b 0%, #0f172a 100.2% );
-		color: white;
-	}
-	code {
-		font-family: Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono,
-			Bitstream Vera Sans Mono, Courier New, monospace;
+  html {
+    font-family: "Metropolis", system-ui, sans-serif;
+    /* background-color: #1e293b; */
+    background-image: radial-gradient(
+      circle 363px at 49.1% 0.8%,
+      #1e293b 0%,
+      #0f172a 100.2%
+    );
+    color: white;
+  }
+  code {
+    font-family: Menlo, Monaco, Lucida Console, Liberation Mono,
+      DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace;
+  }
+
+  body {
+    height: 100vh;
+    margin: 0rem;
+    overflow: hidden;
+  }
+
+  @keyframes rotate {
+    from {
+      rotate: 0deg;
+    }
+
+    50% {
+      scale: 1 1.5;
+    }
+
+    to {
+      rotate: 360deg;
+    }
+  }
+
+  #blob {
+    background-color: white;
+    height: 34vmax;
+    aspect-ratio: 1;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    translate: -50% -50%;
+    border-radius: 50%;
+    background: linear-gradient(to right, aquamarine, mediumpurple);
+    animation: rotate 20s infinite;
+    opacity: 0.8;
+  }
+
+  #blur {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    z-index: 2;
+    backdrop-filter: blur(12vmax);
+  }
+
+	#content {
+		position: relative;
+		z-index: 3;
 	}
 </style>
