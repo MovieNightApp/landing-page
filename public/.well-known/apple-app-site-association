@@ -1,0 +1,15 @@
+{
+  "applinks": {
+    "details": [
+      {
+        "appIDs": ["LKWJEF.com.cjmckenzie.movie-night"],
+        "components": [
+          {
+            "/": "/app/*",
+            "comment": "Matches any URL whose path starts with /app/"
+          }
+        ]
+      }
+    ]
+  }
+}
